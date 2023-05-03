@@ -1,10 +1,5 @@
-import View.GUI;
-
 public class Main {
-
-    public static void main(String[] args)
-    {
-        GUI gui = new GUI();
-        gui.setVisible(true);
+    public static void main(String[] args) {
+        System.out.println("Hello world!");
     }
 }
