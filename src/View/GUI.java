@@ -65,7 +65,9 @@ public class GUI extends JFrame implements ActionListener
             for(Person p:persons)
             {
                 try {
-                    Thread.sleep(MoveToMag.Moving(p,magasins.get(id)));
+                    System.out.println(Thread.activeCount());
+                    System.out.println("Thread :"+Thread.currentThread());
+                    Thread.sleep(MoveToMag.Moving(p,magasins.get(id).getRoad()));
                     p.setR(magasins.get(id).getRoad());
 
                     id++;
@@ -78,29 +80,34 @@ public class GUI extends JFrame implements ActionListener
 
         } else if (e.getSource() == addButton2)
         {
-            Thread asyncThread = new Thread(()->
+            for(Person p:persons)
             {
-                int id=2;
-                for(Person p:persons)
+                System.out.println("nombre de thread actifs : "+Thread.activeCount());
+                Thread asyncThread = new Thread(()->
                 {
-                    try
-                    {
-                        Thread.sleep(MoveToMag.Moving(p,magasins.get(id)));
-                        p.setR(magasins.get(id).getRoad());
 
-                        id--;
-                        model2.removeElement(p.getName());
-                        model1.addElement(p.getName());
-                    } catch (InterruptedException ex) {
-                        throw new RuntimeException(ex);
+                    {
+                        try
+                        {
+
+                            System.out.println("Thread :"+Thread.currentThread().threadId());
+                            Thread.sleep(MoveToMag.Moving(p,p.getPreviousR()));
+                            model2.removeElement(p.getName());
+                            model1.addElement(p.getName());
+                        } catch (InterruptedException ex) {
+                            throw new RuntimeException(ex);
+                        }
+
+
                     }
 
+                });
+                asyncThread.start();
+            }
 
-                }
 
 
-            });
-            asyncThread.start();
+
 
         }
     }

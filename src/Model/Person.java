@@ -4,9 +4,11 @@ public class Person
 {
     private String name;
     private float kph;
+    private Road previousR;
     private Road r;
     public Person(String name, float kph, Road r)
     {
+        previousR=null;
         this.name = name;
         this.kph = kph;
         this.r = r;
@@ -22,7 +24,8 @@ public class Person
             int xE=rE.getX();
             int yB =r.getY();
             int yE =rE.getY();
-
+            setPreviousR(r);
+            setR(rE);
             return((xE-xB)+(yE-yB));
         }
         System.out.println("une Road est null dans Walking");
@@ -51,5 +54,13 @@ public class Person
 
     public void setR(Road r) {
         this.r = r;
+    }
+
+    public Road getPreviousR() {
+        return previousR;
+    }
+
+    public void setPreviousR(Road previousR) {
+        this.previousR = previousR;
     }
 }
