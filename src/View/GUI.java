@@ -65,8 +65,8 @@ public class GUI extends JFrame implements ActionListener
             for(Person p:persons)
             {
                 try {
-                    System.out.println(Thread.activeCount());
-                    System.out.println("Thread :"+Thread.currentThread());
+                    System.out.println("nombre de thread actifs : "+Thread.activeCount());
+                    System.out.println("Thread :"+Thread.currentThread().threadId());
                     Thread.sleep(MoveToMag.Moving(p,magasins.get(id).getRoad()));
                     p.setR(magasins.get(id).getRoad());
 
@@ -102,6 +102,11 @@ public class GUI extends JFrame implements ActionListener
                     }
 
                 });
+                try {
+                    asyncThread.join(MoveToMag.Moving(p,p.getPreviousR()));
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
                 asyncThread.start();
             }
 
